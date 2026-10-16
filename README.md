@@ -66,6 +66,11 @@ powershell -File build-native.ps1                      # the native glue
 dotnet pack src\QtSharp.Charts.csproj -c Release -o out\packages
 ```
 
+`native/QtSharpApiRuntime.h` is the ABI contract between generated glue and the core runtime (the
+`QsApiDispatch` typedef the wrappers are built on). It is a copy of the one in the QtSharp
+repository, pinned to the core package version this repository builds against - the same way the
+generated files are pinned to the model.
+
 `src/QtSharp.Charts.cs` and `src/QtSharp.Charts.native.cpp` are **generated and checked in**: the
 generator lives in the QtSharp repository and needs clang, and there is no reason for this
 repository to drag that in. To regenerate them, from a QtSharp clone:

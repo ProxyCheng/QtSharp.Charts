@@ -64,7 +64,7 @@ Write-Host "[charts] compiling $source"
 & cl /nologo /LD /EHsc /permissive- /std:c++17 /Zc:__cplusplus /utf-8 `
     /DUNICODE /D_UNICODE /DQT_NO_DEBUG /MD /O2 `
     "/Fe$out" "/Fo$OutDir\" `
-    $includes $privateIncludes "/I$qtInc" `
+    $includes $privateIncludes "/I$qtInc" "/I$(Join-Path $root 'native')" `
     $source `
     "/link" "/LIBPATH:$qtLib" Qt6Charts.lib Qt6Widgets.lib Qt6Gui.lib Qt6Core.lib
 if ($LASTEXITCODE -ne 0) { throw 'The native build failed.' }
