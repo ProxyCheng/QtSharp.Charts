@@ -80,12 +80,60 @@ qtgen extract2 model\qtsharp.charts.json --module charts
 qtgen codegen  model\qtsharp.charts.json out\charts --module charts
 ```
 
-and copy the two files into `src\`. `.github/workflows/ci.yml` checks that the checked-in files are
-what the model says they should be.
+and copy the two files into `src\`. The two files and the model are checked in together, so a
+regeneration is a reviewable diff; CI builds and runs them rather than regenerating them, because
+that would mean putting clang and the whole Qt kit on the runner.
 
 ## Tests
 
-`tests/` ports Qt's own `examples/charts` to C# - `splinechart` to begin with - and asserts on what
-the binding produced rather than on a screenshot: the points a series carries, the title, the axes
-`createDefaultAxes()` built, the range set through `QValueAxis`, and the ink the chart actually
-draws when it is rendered off-screen.
+`tests/` is a conformance suite: Qt's own examples ported to C#, run one process per example, each
+asserting on **what the binding produced** rather than on a screenshot, so the suite works on a
+machine with no display. Every run prints `[PASS]`/`[FAIL]` per assertion and exits non-zero if any
+failed.
+
+```
+ChartsTests --list              # the example names, one per line
+ChartsTests                     # the usage table
+ChartsTests piechart            # run one
+ChartsTests --list | % { ... }  # what CI does
+```
+
+| Example | From |
+|---|---|
+| `splinechart`, `linechart` | Qt's stand-alone examples of the same name |
+| `barchart`, `stackedbarchart`, `lineandbar` | `chartsgallery` BarWidget / BarStackedWidget / LineAndBarWidget |
+| `piechart`, `donutchart`, `nesteddonuts` | PieWidget / DonutWidget / NestedDonutsWidget |
+| `scatterchart`, `areachart` | ScatterWidget / AreaWidget |
+| `datetimeaxis`, `logvalueaxis`, `multiaxis` | DateTimeAxisWidget / LogAxisWidget / MultiAxisWidget |
+| `polarchart` | PolarChartWidget |
+| `legend`, `legendmarkers`, `selectedbar` | LegendWidget / LegendMarkersWidget / SelectedBarWidget |
+| `dynamicspline`, `chartthemes`, `zoomlinechart` | DynamicSplineWidget / ThemeWidget / the zoomlinechart example |
+
+In Qt 6.11 most of the stand-alone widget examples were folded into `examples/charts/chartsgallery`,
+one widget per chart type - so the name without a suffix is the gallery widget it came from.
+
+### What the port had to work around
+
+These are the places where the binding's shape differs from the C++ the examples are written in.
+They are worth knowing before you write your own charts code:
+
+- **`chart.animationOptions()` and `series.markerShape()` are lower case.** When a `Q_PROPERTY`'s
+  name collides with a nested enum of the same class (`QChart::AnimationOptions`,
+  `QScatterSeries::MarkerShape`), the generated PascalCase property is dropped and the accessor keeps
+  its C++ spelling. `SetAnimationOptions(...)` / `SetMarkerShape(...)` are unaffected.
+- **A legend is shown and hidden through `AsQGraphicsItem()`.** `QLegend` derives from
+  `QGraphicsWidget`, which the core binding models as a `QObject` plus a `QGraphicsItem` *view*
+  rather than as an inheritance chain, so `legend->hide()` becomes
+  `legend.AsQGraphicsItem().Hide()` - see `ChartsAssertions.HideLegend`.
+- **`chart->axes(...).first()->setRange(0, 20)` goes through `QValueAxis`.** `QAbstractAxis::setRange`
+  takes `QVariant`s (the axis may be any kind); the `qreal` overload the examples call belongs to
+  `QValueAxis`, so the axis has to be viewed as one - see `ChartsAssertions.ValueAxis`.
+- **`QPieSlice::percentage()` is a fraction, not a percentage** (2/15 is `0.1333`), and
+  `QCategoryAxis::append(label, endValue)` closes a band at that value, so the *next* band starts
+  there.
+- **`QLegend` has no `setGeometry`.** The geometry spin boxes of the LegendWidget example are left
+  out for that reason; the rest of the example is ported.
+- **zoomlinechart's gesture half is not ported.** The example's `Chart` subclass handles pan and
+  pinch in `sceneEvent()`/`gestureEvent()`; neither is part of the bound surface. The rubber band and
+  the keyboard controls are, and the managed `ChartView` subclass proves the module's classes can be
+  overridden from C#.

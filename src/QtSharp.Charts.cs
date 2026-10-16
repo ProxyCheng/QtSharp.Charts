@@ -301,11 +301,6 @@ namespace QtSharp.Charts
             return ApiNative.QAbstractAxis_labelsTruncated(Handle);
         }
 
-        public void LabelsTruncatedChanged(bool labelsTruncated)
-        {
-            ApiNative.QAbstractAxis_labelsTruncatedChanged(Handle, labelsTruncated);
-        }
-
         public bool labelsVisible()
         {
             return ApiNative.QAbstractAxis_labelsVisible(Handle);
@@ -546,11 +541,6 @@ namespace QtSharp.Charts
             return ApiNative.QAbstractAxis_truncateLabels(Handle);
         }
 
-        public void TruncateLabelsChanged(bool truncateLabels)
-        {
-            ApiNative.QAbstractAxis_truncateLabelsChanged(Handle, truncateLabels);
-        }
-
         public QAbstractAxis.AxisType Type()
         {
             return (QAbstractAxis.AxisType)ApiNative.QAbstractAxis_type(Handle);
@@ -743,6 +733,27 @@ namespace QtSharp.Charts
         {
             add => ApiRuntime.Connect(Handle, "labelsFontChanged(QFont)", (argv, _) => value(QFont.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
             remove => ApiRuntime.Disconnect(Handle, "labelsFontChanged(QFont)", value);
+        }
+
+        public QSignal<bool> LabelsTruncatedChangedSignal =>
+            new QSignal<bool>(h => ApiRuntime.Connect(Handle, "labelsTruncatedChanged(bool)", (argv, _) => h(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0)),
+                (a1) =>
+                {
+                    bool __e0 = a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "labelsTruncatedChanged(bool)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The labelsTruncatedChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<bool> LabelsTruncatedChanged
+        {
+            add => ApiRuntime.Connect(Handle, "labelsTruncatedChanged(bool)", (argv, _) => value(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0), value);
+            remove => ApiRuntime.Disconnect(Handle, "labelsTruncatedChanged(bool)", value);
         }
 
         public QSignal<bool> LabelsVisibleChangedSignal =>
@@ -1086,6 +1097,27 @@ namespace QtSharp.Charts
         {
             add => ApiRuntime.Connect(Handle, "titleVisibleChanged(bool)", (argv, _) => value(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0), value);
             remove => ApiRuntime.Disconnect(Handle, "titleVisibleChanged(bool)", value);
+        }
+
+        public QSignal<bool> TruncateLabelsChangedSignal =>
+            new QSignal<bool>(h => ApiRuntime.Connect(Handle, "truncateLabelsChanged(bool)", (argv, _) => h(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0)),
+                (a1) =>
+                {
+                    bool __e0 = a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "truncateLabelsChanged(bool)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The truncateLabelsChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<bool> TruncateLabelsChanged
+        {
+            add => ApiRuntime.Connect(Handle, "truncateLabelsChanged(bool)", (argv, _) => value(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0), value);
+            remove => ApiRuntime.Disconnect(Handle, "truncateLabelsChanged(bool)", value);
         }
 
         public QSignal<bool> VisibleChangedSignal =>
@@ -3272,27 +3304,9 @@ namespace QtSharp.Charts
             return QsApiList_int.Read(ApiNative.QBarSet_selectedBars(Handle));
         }
 
-        public void SelectedBarsChanged(int[] indexes)
-        {
-            var indexesHandle = QsApiList_int.New(indexes);
-            try
-            {
-                ApiNative.QBarSet_selectedBarsChanged(Handle, indexesHandle);
-            }
-            finally
-            {
-                QsApiList_int.Free(indexesHandle);
-            }
-        }
-
         public QColor SelectedColor()
         {
             return QColor.FromOwnedHandle(ApiNative.QBarSet_selectedColor(Handle));
-        }
-
-        public void SelectedColorChanged(QColor color)
-        {
-            ApiNative.QBarSet_selectedColorChanged(Handle, color?.Handle ?? IntPtr.Zero);
         }
 
         public void SetBarSelected(int index, bool selected)
@@ -3626,6 +3640,55 @@ namespace QtSharp.Charts
         {
             add => ApiRuntime.Connect(Handle, "released(int)", (argv, _) => value(Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
             remove => ApiRuntime.Disconnect(Handle, "released(int)", value);
+        }
+
+        public QSignal<int[]> SelectedBarsChangedSignal =>
+            new QSignal<int[]>(h => ApiRuntime.Connect(Handle, "selectedBarsChanged(QList<int>)", (argv, _) => h(QsApiList_int.ReadTransient(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = QsApiList_int.New(a1);
+                    try
+                    {
+                        unsafe
+                        {
+                            void** __argv = stackalloc void*[1];
+                            __argv[0] = (void*)__e0;
+                            ApiRuntime.Emit(Handle, "selectedBarsChanged(QList<int>)", (IntPtr)__argv, 1);
+                        }
+                    }
+                    finally
+                    {
+                        QsApiList_int.Free(__e0);
+                    }
+                }
+                );
+
+        /// <summary>The selectedBarsChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<int[]> SelectedBarsChanged
+        {
+            add => ApiRuntime.Connect(Handle, "selectedBarsChanged(QList<int>)", (argv, _) => value(QsApiList_int.ReadTransient(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "selectedBarsChanged(QList<int>)", value);
+        }
+
+        public QSignal<QColor> SelectedColorChangedSignal =>
+            new QSignal<QColor>(h => ApiRuntime.Connect(Handle, "selectedColorChanged(QColor)", (argv, _) => h(QColor.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = (void*)__e0;
+                        ApiRuntime.Emit(Handle, "selectedColorChanged(QColor)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The selectedColorChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QColor> SelectedColorChanged
+        {
+            add => ApiRuntime.Connect(Handle, "selectedColorChanged(QColor)", (argv, _) => value(QColor.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "selectedColorChanged(QColor)", value);
         }
 
         public QSignal<int> ValueChangedSignal =>
@@ -4646,6 +4709,11 @@ namespace QtSharp.Charts
             ApiNative.QChartView_setChart(Handle, chart?.Handle ?? IntPtr.Zero);
         }
 
+        public void SetRubberBand(QChartView.RubberBands rubberBands)
+        {
+            ApiNative.QChartView_setRubberBand(Handle, (int)rubberBands);
+        }
+
         public new static string Tr(string s, string c = null, int n = default)
         {
             return ApiRuntime.ToManaged(ApiNative.QChartView_tr(s, c, n));
@@ -5286,11 +5354,6 @@ namespace QtSharp.Charts
             ApiNative.QLegend_attachToChart(Handle);
         }
 
-        public void AttachedToChartChanged(bool attachedToChart)
-        {
-            ApiNative.QLegend_attachedToChartChanged(Handle, attachedToChart);
-        }
-
         public QColor borderColor()
         {
             return QColor.FromOwnedHandle(ApiNative.QLegend_borderColor(Handle));
@@ -5470,6 +5533,27 @@ namespace QtSharp.Charts
             {
                 ApiNative.QLegend_showEvent__base(Handle, @event?.Handle ?? IntPtr.Zero);
             }
+        }
+
+        public QSignal<bool> AttachedToChartChangedSignal =>
+            new QSignal<bool>(h => ApiRuntime.Connect(Handle, "attachedToChartChanged(bool)", (argv, _) => h(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0)),
+                (a1) =>
+                {
+                    bool __e0 = a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "attachedToChartChanged(bool)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The attachedToChartChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<bool> AttachedToChartChanged
+        {
+            add => ApiRuntime.Connect(Handle, "attachedToChartChanged(bool)", (argv, _) => value(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0), value);
+            remove => ApiRuntime.Disconnect(Handle, "attachedToChartChanged(bool)", value);
         }
 
         public QSignal<bool> BackgroundVisibleChangedSignal =>
@@ -8769,11 +8853,6 @@ namespace QtSharp.Charts
             return ApiNative.QValueAxis_tickAnchor(Handle);
         }
 
-        public void TickAnchorChanged(double anchor)
-        {
-            ApiNative.QValueAxis_tickAnchorChanged(Handle, anchor);
-        }
-
         public int tickCount()
         {
             return ApiNative.QValueAxis_tickCount(Handle);
@@ -8784,19 +8863,9 @@ namespace QtSharp.Charts
             return ApiNative.QValueAxis_tickInterval(Handle);
         }
 
-        public void TickIntervalChanged(double interval)
-        {
-            ApiNative.QValueAxis_tickIntervalChanged(Handle, interval);
-        }
-
         public QValueAxis.TickType tickType()
         {
             return (QValueAxis.TickType)ApiNative.QValueAxis_tickType(Handle);
-        }
-
-        public void TickTypeChanged(QValueAxis.TickType type)
-        {
-            ApiNative.QValueAxis_tickTypeChanged(Handle, (int)type);
         }
 
         public new static string Tr(string s, string c = null, int n = default)
@@ -8923,6 +8992,27 @@ namespace QtSharp.Charts
             remove => ApiRuntime.Disconnect(Handle, "rangeChanged(double,double)", value);
         }
 
+        public QSignal<double> TickAnchorChangedSignal =>
+            new QSignal<double>(h => ApiRuntime.Connect(Handle, "tickAnchorChanged(double)", (argv, _) => h(BitConverter.Int64BitsToDouble(Marshal.ReadInt64(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))))),
+                (a1) =>
+                {
+                    double __e0 = a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "tickAnchorChanged(double)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The tickAnchorChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<double> TickAnchorChanged
+        {
+            add => ApiRuntime.Connect(Handle, "tickAnchorChanged(double)", (argv, _) => value(BitConverter.Int64BitsToDouble(Marshal.ReadInt64(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))), value);
+            remove => ApiRuntime.Disconnect(Handle, "tickAnchorChanged(double)", value);
+        }
+
         public QSignal<int> TickCountChangedSignal =>
             new QSignal<int>(h => ApiRuntime.Connect(Handle, "tickCountChanged(int)", (argv, _) => h(Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
                 (a1) =>
@@ -8942,6 +9032,48 @@ namespace QtSharp.Charts
         {
             add => ApiRuntime.Connect(Handle, "tickCountChanged(int)", (argv, _) => value(Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
             remove => ApiRuntime.Disconnect(Handle, "tickCountChanged(int)", value);
+        }
+
+        public QSignal<double> TickIntervalChangedSignal =>
+            new QSignal<double>(h => ApiRuntime.Connect(Handle, "tickIntervalChanged(double)", (argv, _) => h(BitConverter.Int64BitsToDouble(Marshal.ReadInt64(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))))),
+                (a1) =>
+                {
+                    double __e0 = a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "tickIntervalChanged(double)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The tickIntervalChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<double> TickIntervalChanged
+        {
+            add => ApiRuntime.Connect(Handle, "tickIntervalChanged(double)", (argv, _) => value(BitConverter.Int64BitsToDouble(Marshal.ReadInt64(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))), value);
+            remove => ApiRuntime.Disconnect(Handle, "tickIntervalChanged(double)", value);
+        }
+
+        public QSignal<QValueAxis.TickType> TickTypeChangedSignal =>
+            new QSignal<QValueAxis.TickType>(h => ApiRuntime.Connect(Handle, "tickTypeChanged(QValueAxis::TickType)", (argv, _) => h((QValueAxis.TickType)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    int __e0 = (int)a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "tickTypeChanged(QValueAxis::TickType)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The tickTypeChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QValueAxis.TickType> TickTypeChanged
+        {
+            add => ApiRuntime.Connect(Handle, "tickTypeChanged(QValueAxis::TickType)", (argv, _) => value((QValueAxis.TickType)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "tickTypeChanged(QValueAxis::TickType)", value);
         }
 
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
@@ -9115,24 +9247,9 @@ namespace QtSharp.Charts
             return QColor.FromOwnedHandle(ApiNative.QXYSeries_bestFitLineColor(Handle));
         }
 
-        public void BestFitLineColorChanged(QColor color)
-        {
-            ApiNative.QXYSeries_bestFitLineColorChanged(Handle, color?.Handle ?? IntPtr.Zero);
-        }
-
         public QPen BestFitLinePen()
         {
             return QPen.FromOwnedHandle(ApiNative.QXYSeries_bestFitLinePen(Handle));
-        }
-
-        public void BestFitLinePenChanged(QPen pen)
-        {
-            ApiNative.QXYSeries_bestFitLinePenChanged(Handle, pen?.Handle ?? IntPtr.Zero);
-        }
-
-        public void BestFitLineVisibilityChanged(bool visible)
-        {
-            ApiNative.QXYSeries_bestFitLineVisibilityChanged(Handle, visible);
         }
 
         public bool bestFitLineVisible()
@@ -9229,11 +9346,6 @@ namespace QtSharp.Charts
         public QImage LightMarker()
         {
             return QImage.FromOwnedHandle(ApiNative.QXYSeries_lightMarker(Handle));
-        }
-
-        public void LightMarkerChanged(QImage lightMarker)
-        {
-            ApiNative.QXYSeries_lightMarkerChanged(Handle, lightMarker?.Handle ?? IntPtr.Zero);
         }
 
         public double MarkerSize()
@@ -9377,19 +9489,9 @@ namespace QtSharp.Charts
             return QColor.FromOwnedHandle(ApiNative.QXYSeries_selectedColor(Handle));
         }
 
-        public void SelectedColorChanged(QColor color)
-        {
-            ApiNative.QXYSeries_selectedColorChanged(Handle, color?.Handle ?? IntPtr.Zero);
-        }
-
         public QImage SelectedLightMarker()
         {
             return QImage.FromOwnedHandle(ApiNative.QXYSeries_selectedLightMarker(Handle));
-        }
-
-        public void SelectedLightMarkerChanged(QImage selectedLightMarker)
-        {
-            ApiNative.QXYSeries_selectedLightMarkerChanged(Handle, selectedLightMarker?.Handle ?? IntPtr.Zero);
         }
 
         public int[] SelectedPoints()
@@ -9531,6 +9633,69 @@ namespace QtSharp.Charts
             return ApiRuntime.ToManaged(ApiNative.QXYSeries_tr(s, c, n));
         }
 
+        public QSignal<QColor> BestFitLineColorChangedSignal =>
+            new QSignal<QColor>(h => ApiRuntime.Connect(Handle, "bestFitLineColorChanged(QColor)", (argv, _) => h(QColor.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = (void*)__e0;
+                        ApiRuntime.Emit(Handle, "bestFitLineColorChanged(QColor)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The bestFitLineColorChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QColor> BestFitLineColorChanged
+        {
+            add => ApiRuntime.Connect(Handle, "bestFitLineColorChanged(QColor)", (argv, _) => value(QColor.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "bestFitLineColorChanged(QColor)", value);
+        }
+
+        public QSignal<QPen> BestFitLinePenChangedSignal =>
+            new QSignal<QPen>(h => ApiRuntime.Connect(Handle, "bestFitLinePenChanged(QPen)", (argv, _) => h(QPen.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = (void*)__e0;
+                        ApiRuntime.Emit(Handle, "bestFitLinePenChanged(QPen)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The bestFitLinePenChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QPen> BestFitLinePenChanged
+        {
+            add => ApiRuntime.Connect(Handle, "bestFitLinePenChanged(QPen)", (argv, _) => value(QPen.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "bestFitLinePenChanged(QPen)", value);
+        }
+
+        public QSignal<bool> BestFitLineVisibilityChangedSignal =>
+            new QSignal<bool>(h => ApiRuntime.Connect(Handle, "bestFitLineVisibilityChanged(bool)", (argv, _) => h(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0)),
+                (a1) =>
+                {
+                    bool __e0 = a1;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = &__e0;
+                        ApiRuntime.Emit(Handle, "bestFitLineVisibilityChanged(bool)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The bestFitLineVisibilityChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<bool> BestFitLineVisibilityChanged
+        {
+            add => ApiRuntime.Connect(Handle, "bestFitLineVisibilityChanged(bool)", (argv, _) => value(Marshal.ReadByte(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)) != 0), value);
+            remove => ApiRuntime.Disconnect(Handle, "bestFitLineVisibilityChanged(bool)", value);
+        }
+
         public QSignal<QPointF> ClickedSignal =>
             new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
                 (a1) =>
@@ -9615,6 +9780,27 @@ namespace QtSharp.Charts
         {
             add => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0), value);
             remove => ApiRuntime.Disconnect(Handle, "hovered(QPointF,bool)", value);
+        }
+
+        public QSignal<QImage> LightMarkerChangedSignal =>
+            new QSignal<QImage>(h => ApiRuntime.Connect(Handle, "lightMarkerChanged(QImage)", (argv, _) => h(QImage.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = (void*)__e0;
+                        ApiRuntime.Emit(Handle, "lightMarkerChanged(QImage)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The lightMarkerChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QImage> LightMarkerChanged
+        {
+            add => ApiRuntime.Connect(Handle, "lightMarkerChanged(QImage)", (argv, _) => value(QImage.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "lightMarkerChanged(QImage)", value);
         }
 
         public QSignal<double> MarkerSizeChangedSignal =>
@@ -9917,6 +10103,48 @@ namespace QtSharp.Charts
             remove => ApiRuntime.Disconnect(Handle, "released(QPointF)", value);
         }
 
+        public QSignal<QColor> SelectedColorChangedSignal =>
+            new QSignal<QColor>(h => ApiRuntime.Connect(Handle, "selectedColorChanged(QColor)", (argv, _) => h(QColor.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = (void*)__e0;
+                        ApiRuntime.Emit(Handle, "selectedColorChanged(QColor)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The selectedColorChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QColor> SelectedColorChanged
+        {
+            add => ApiRuntime.Connect(Handle, "selectedColorChanged(QColor)", (argv, _) => value(QColor.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "selectedColorChanged(QColor)", value);
+        }
+
+        public QSignal<QImage> SelectedLightMarkerChangedSignal =>
+            new QSignal<QImage>(h => ApiRuntime.Connect(Handle, "selectedLightMarkerChanged(QImage)", (argv, _) => h(QImage.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+                (a1) =>
+                {
+                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    unsafe
+                    {
+                        void** __argv = stackalloc void*[1];
+                        __argv[0] = (void*)__e0;
+                        ApiRuntime.Emit(Handle, "selectedLightMarkerChanged(QImage)", (IntPtr)__argv, 1);
+                    }
+                }
+                );
+
+        /// <summary>The selectedLightMarkerChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
+        public event Action<QImage> SelectedLightMarkerChanged
+        {
+            add => ApiRuntime.Connect(Handle, "selectedLightMarkerChanged(QImage)", (argv, _) => value(QImage.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            remove => ApiRuntime.Disconnect(Handle, "selectedLightMarkerChanged(QImage)", value);
+        }
+
         public QSignal SelectedPointsChangedSignal =>
             new QSignal(h => ApiRuntime.Connect(Handle, "selectedPointsChanged()", (argv, _) => h()),
                 () =>
@@ -10055,9 +10283,6 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QAbstractAxis_labelsTruncated", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         internal static extern bool QAbstractAxis_labelsTruncated(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QAbstractAxis_labelsTruncatedChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QAbstractAxis_labelsTruncatedChanged(IntPtr self, bool labelsTruncated);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QAbstractAxis_labelsVisible", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -10205,9 +10430,6 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QAbstractAxis_truncateLabels", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         internal static extern bool QAbstractAxis_truncateLabels(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QAbstractAxis_truncateLabelsChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QAbstractAxis_truncateLabelsChanged(IntPtr self, bool truncateLabels);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QAbstractAxis_type", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int QAbstractAxis_type(IntPtr self);
@@ -10586,14 +10808,8 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QBarSet_selectedBars", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QBarSet_selectedBars(IntPtr self);
 
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QBarSet_selectedBarsChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QBarSet_selectedBarsChanged(IntPtr self, IntPtr indexes);
-
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QBarSet_selectedColor", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QBarSet_selectedColor(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QBarSet_selectedColorChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QBarSet_selectedColorChanged(IntPtr self, IntPtr color);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QBarSet_setBarSelected", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QBarSet_setBarSelected(IntPtr self, int index, bool selected);
@@ -10924,6 +11140,9 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChartView_setChart", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QChartView_setChart(IntPtr self, IntPtr chart);
 
+        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChartView_setRubberBand", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void QChartView_setRubberBand(IntPtr self, int rubberBands);
+
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChartView_tr", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QChartView_tr([MarshalAs(UnmanagedType.LPUTF8Str)] string s, [MarshalAs(UnmanagedType.LPUTF8Str)] string c, int n);
 
@@ -10986,9 +11205,6 @@ namespace QtSharp.Charts
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QLegend_attachToChart", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QLegend_attachToChart(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QLegend_attachedToChartChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QLegend_attachedToChartChanged(IntPtr self, bool attachedToChart);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QLegend_borderColor", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QLegend_borderColor(IntPtr self);
@@ -11577,23 +11793,14 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickAnchor", CallingConvention = CallingConvention.Cdecl)]
         internal static extern double QValueAxis_tickAnchor(IntPtr self);
 
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickAnchorChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QValueAxis_tickAnchorChanged(IntPtr self, double anchor);
-
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickCount", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int QValueAxis_tickCount(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickInterval", CallingConvention = CallingConvention.Cdecl)]
         internal static extern double QValueAxis_tickInterval(IntPtr self);
 
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickIntervalChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QValueAxis_tickIntervalChanged(IntPtr self, double interval);
-
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickType", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int QValueAxis_tickType(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tickTypeChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QValueAxis_tickTypeChanged(IntPtr self, int type);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QValueAxis_tr", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QValueAxis_tr([MarshalAs(UnmanagedType.LPUTF8Str)] string s, [MarshalAs(UnmanagedType.LPUTF8Str)] string c, int n);
@@ -11616,17 +11823,8 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLineColor", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_bestFitLineColor(IntPtr self);
 
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLineColorChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_bestFitLineColorChanged(IntPtr self, IntPtr color);
-
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLinePen", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_bestFitLinePen(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLinePenChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_bestFitLinePenChanged(IntPtr self, IntPtr pen);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLineVisibilityChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_bestFitLineVisibilityChanged(IntPtr self, bool visible);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLineVisible", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -11677,9 +11875,6 @@ namespace QtSharp.Charts
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_lightMarker", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_lightMarker(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_lightMarkerChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_lightMarkerChanged(IntPtr self, IntPtr lightMarker);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_markerSize", CallingConvention = CallingConvention.Cdecl)]
         internal static extern double QXYSeries_markerSize(IntPtr self);
@@ -11759,14 +11954,8 @@ namespace QtSharp.Charts
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_selectedColor", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_selectedColor(IntPtr self);
 
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_selectedColorChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_selectedColorChanged(IntPtr self, IntPtr color);
-
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_selectedLightMarker", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_selectedLightMarker(IntPtr self);
-
-        [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_selectedLightMarkerChanged", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_selectedLightMarkerChanged(IntPtr self, IntPtr selectedLightMarker);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_selectedPoints", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_selectedPoints(IntPtr self);

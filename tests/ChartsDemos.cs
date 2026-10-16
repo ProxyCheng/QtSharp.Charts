@@ -8,6 +8,10 @@ namespace QtSharp.Charts.Tests
     /// The ported Qt examples, and the one place that maps a name to one of them. QtSharp's own
     /// conformance suite works the same way: the list comes from the library, so a new example is
     /// covered as soon as it is registered here.
+    ///
+    /// The names follow the Qt examples they came from. In Qt 6.11 most of the stand-alone widgets
+    /// examples were folded into examples/charts/chartsgallery, one widget per chart type; those are
+    /// the names without a "chart" suffix. zoomlinechart is still its own example upstream.
     /// </summary>
     public static class ChartsDemos
     {
@@ -15,6 +19,24 @@ namespace QtSharp.Charts.Tests
         {
             ("splinechart", SplineChart.Run),
             ("linechart", LineChart.Run),
+            ("barchart", BarChart.Run),
+            ("stackedbarchart", StackedBarChart.Run),
+            ("lineandbar", LineAndBarChart.Run),
+            ("piechart", PieChart.Run),
+            ("donutchart", DonutChart.Run),
+            ("nesteddonuts", NestedDonuts.Run),
+            ("scatterchart", ScatterChart.Run),
+            ("areachart", AreaChart.Run),
+            ("datetimeaxis", DateTimeAxisChart.Run),
+            ("logvalueaxis", LogValueAxisChart.Run),
+            ("multiaxis", MultiAxisChart.Run),
+            ("polarchart", PolarChart.Run),
+            ("legend", LegendChart.Run),
+            ("legendmarkers", LegendMarkersChart.Run),
+            ("selectedbar", SelectedBarChart.Run),
+            ("dynamicspline", DynamicSplineChart.Run),
+            ("chartthemes", ChartThemes.Run),
+            ("zoomlinechart", ZoomLineChart.Run),
         };
 
         public static IReadOnlyList<string> Names

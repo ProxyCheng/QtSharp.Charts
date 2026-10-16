@@ -1,3 +1,4 @@
+using System;
 using QtSharp.Api;
 
 namespace QtSharp.Charts.Tests
@@ -24,6 +25,97 @@ namespace QtSharp.Charts.Tests
                         ink++;
                 }
             return ink;
+        }
+
+        /// <summary>Number of distinct colours in the rendered chart, sampled every other pixel.</summary>
+        public static int ColourSamples(QPixmap rendered)
+        {
+            if (rendered == null)
+                return 0;
+            using var image = rendered.ToImage();
+            var seen = new System.Collections.Generic.HashSet<uint>();
+            for (int y = 0; y < image.Height(); y += 2)
+                for (int x = 0; x < image.Width(); x += 2)
+                    seen.Add(image.Pixel(x, y));
+            return seen.Count;
+        }
+
+        /// <summary>
+        /// Puts a chart in a view, shows it, pumps the event loop so Qt lays it out and paints, and
+        /// hands the view back. The examples in Qt's own gallery are widgets; the off-screen
+        /// equivalent is a shown QChartView, which is also what makes grab() render it.
+        /// </summary>
+        public static QChartView Present(QChart chart, int width = 420, int height = 320,
+                                         QPainter.RenderHint renderHint = QPainter.RenderHint.Antialiasing)
+        {
+            var view = new QChartView(chart);
+            view.SetRenderHint(renderHint);
+            view.Resize(width, height);
+            view.Show();
+            Pump();
+            return view;
+        }
+
+        /// <summary>
+        /// Shows or hides a chart's legend.
+        ///
+        /// QLegend derives from QGraphicsWidget, and the core binding models that as a QObject plus a
+        /// QGraphicsItem *view* rather than as an inheritance chain (the same secondary-base
+        /// treatment a QWidget's QPaintDevice gets), so setVisible() is reached through
+        /// AsQGraphicsItem(). The Qt examples call legend()->hide() and legend()->setVisible();
+        /// this is where that ends up.
+        /// </summary>
+        public static void SetLegendVisible(QChart chart, bool visible)
+            => chart.Legend().AsQGraphicsItem().SetVisible(visible);
+
+        /// <summary>Hides the legend, the way the Qt examples' legend()->hide() does.</summary>
+        public static void HideLegend(QChart chart)
+            => chart.Legend().AsQGraphicsItem().Hide();
+
+        /// <summary>Whether the legend is showing, matching legend()->isVisible().</summary>
+        public static bool IsLegendVisible(QChart chart)
+            => chart.Legend().AsQGraphicsItem().IsVisible();
+
+        /// <summary>
+        /// The QValueAxis view of an axis a chart created. QAbstractAxis::setRange takes QVariants
+        /// (the axis may be any kind), so the qreal overload the Qt examples call is QValueAxis's -
+        /// this is where chart->axes(...).first()->setRange(0, 20) ends up.
+        /// </summary>
+        public static QValueAxis ValueAxis(QAbstractAxis axis)
+            => QValueAxis.FromHandle(axis.Handle);
+
+        /// <summary>Lets Qt run: the animations and the layout need a few event-loop turns.</summary>
+        public static void Pump(int rounds = 25)
+        {
+            for (int i = 0; i < rounds; i++)
+            {
+                QCoreApplication.ProcessEvents();
+                System.Threading.Thread.Sleep(5);
+            }
+        }
+    }
+
+    /// <summary>
+    /// The per-example assertion counter, so every ported example reports the same way and the gate
+    /// can key off the exit code alone.
+    /// </summary>
+    public sealed class ChartsCheck
+    {
+        int _failures;
+
+        public void Check(bool ok, string what)
+        {
+            Console.WriteLine($"{(ok ? "[PASS]" : "[FAIL]")} {what}");
+            if (!ok)
+                _failures++;
+        }
+
+        public void Info(string what) => Console.WriteLine($"       {what}");
+
+        public int Finish()
+        {
+            Console.WriteLine(_failures == 0 ? "[SELFTEST OK]" : $"[SELFTEST FAILED] {_failures}");
+            return _failures == 0 ? 0 : 1;
         }
     }
 }

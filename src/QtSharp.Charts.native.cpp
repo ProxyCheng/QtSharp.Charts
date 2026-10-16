@@ -455,11 +455,6 @@ extern "C" __declspec(dllexport) bool qs_api_QAbstractAxis_labelsTruncated(void*
     return static_cast<QAbstractAxis*>(self)->labelsTruncated();
 }
 
-extern "C" __declspec(dllexport) void qs_api_QAbstractAxis_labelsTruncatedChanged(void* self, bool labelsTruncated)
-{
-    static_cast<QAbstractAxis*>(self)->labelsTruncatedChanged(labelsTruncated);
-}
-
 extern "C" __declspec(dllexport) bool qs_api_QAbstractAxis_labelsVisible(void* self)
 {
     return static_cast<QAbstractAxis*>(self)->labelsVisible();
@@ -698,11 +693,6 @@ extern "C" __declspec(dllexport) void* qs_api_QAbstractAxis_tr(const char* s, co
 extern "C" __declspec(dllexport) bool qs_api_QAbstractAxis_truncateLabels(void* self)
 {
     return static_cast<QAbstractAxis*>(self)->truncateLabels();
-}
-
-extern "C" __declspec(dllexport) void qs_api_QAbstractAxis_truncateLabelsChanged(void* self, bool truncateLabels)
-{
-    static_cast<QAbstractAxis*>(self)->truncateLabelsChanged(truncateLabels);
 }
 
 extern "C" __declspec(dllexport) int qs_api_QAbstractAxis_type(void* self)
@@ -1614,19 +1604,9 @@ extern "C" __declspec(dllexport) void* qs_api_QBarSet_selectedBars(void* self)
     return new QList<int>(static_cast<QBarSet*>(self)->selectedBars());
 }
 
-extern "C" __declspec(dllexport) void qs_api_QBarSet_selectedBarsChanged(void* self, void* indexes)
-{
-    static_cast<QBarSet*>(self)->selectedBarsChanged(*static_cast<QList<int>*>(indexes));
-}
-
 extern "C" __declspec(dllexport) void* qs_api_QBarSet_selectedColor(void* self)
 {
     return new QColor(static_cast<QBarSet*>(self)->selectedColor());
-}
-
-extern "C" __declspec(dllexport) void qs_api_QBarSet_selectedColorChanged(void* self, void* color)
-{
-    static_cast<QBarSet*>(self)->selectedColorChanged((color ? *static_cast<QColor*>(color) : QsApiDefaultValue<QColor>()));
 }
 
 extern "C" __declspec(dllexport) void qs_api_QBarSet_setBarSelected(void* self, int index, bool selected)
@@ -2541,6 +2521,11 @@ extern "C" __declspec(dllexport) void qs_api_QChartView_setChart(void* self, voi
     static_cast<QChartView*>(self)->setChart(static_cast<QChart*>(chart));
 }
 
+extern "C" __declspec(dllexport) void qs_api_QChartView_setRubberBand(void* self, int rubberBands)
+{
+    static_cast<QChartView*>(self)->setRubberBand(QChartView::RubberBands::fromInt(rubberBands));
+}
+
 extern "C" __declspec(dllexport) void* qs_api_QChartView_tr(const char* s, const char* c, int n)
 {
     return new QString(QChartView::tr(s, c, n));
@@ -2844,11 +2829,6 @@ extern "C" __declspec(dllexport) int qs_api_QLegend_alignment(void* self)
 extern "C" __declspec(dllexport) void qs_api_QLegend_attachToChart(void* self)
 {
     static_cast<QLegend*>(self)->attachToChart();
-}
-
-extern "C" __declspec(dllexport) void qs_api_QLegend_attachedToChartChanged(void* self, bool attachedToChart)
-{
-    static_cast<QLegend*>(self)->attachedToChartChanged(attachedToChart);
 }
 
 extern "C" __declspec(dllexport) void* qs_api_QLegend_borderColor(void* self)
@@ -4410,11 +4390,6 @@ extern "C" __declspec(dllexport) double qs_api_QValueAxis_tickAnchor(void* self)
     return static_cast<QValueAxis*>(self)->tickAnchor();
 }
 
-extern "C" __declspec(dllexport) void qs_api_QValueAxis_tickAnchorChanged(void* self, double anchor)
-{
-    static_cast<QValueAxis*>(self)->tickAnchorChanged(anchor);
-}
-
 extern "C" __declspec(dllexport) int qs_api_QValueAxis_tickCount(void* self)
 {
     return static_cast<QValueAxis*>(self)->tickCount();
@@ -4425,19 +4400,9 @@ extern "C" __declspec(dllexport) double qs_api_QValueAxis_tickInterval(void* sel
     return static_cast<QValueAxis*>(self)->tickInterval();
 }
 
-extern "C" __declspec(dllexport) void qs_api_QValueAxis_tickIntervalChanged(void* self, double interval)
-{
-    static_cast<QValueAxis*>(self)->tickIntervalChanged(interval);
-}
-
 extern "C" __declspec(dllexport) int qs_api_QValueAxis_tickType(void* self)
 {
     return static_cast<int>(static_cast<QValueAxis*>(self)->tickType());
-}
-
-extern "C" __declspec(dllexport) void qs_api_QValueAxis_tickTypeChanged(void* self, int type)
-{
-    static_cast<QValueAxis*>(self)->tickTypeChanged(static_cast<QValueAxis::TickType>(type));
 }
 
 extern "C" __declspec(dllexport) void* qs_api_QValueAxis_tr(const char* s, const char* c, int n)
@@ -4520,24 +4485,9 @@ extern "C" __declspec(dllexport) void* qs_api_QXYSeries_bestFitLineColor(void* s
     return new QColor(static_cast<QXYSeries*>(self)->bestFitLineColor());
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_bestFitLineColorChanged(void* self, void* color)
-{
-    static_cast<QXYSeries*>(self)->bestFitLineColorChanged((color ? *static_cast<QColor*>(color) : QsApiDefaultValue<QColor>()));
-}
-
 extern "C" __declspec(dllexport) void* qs_api_QXYSeries_bestFitLinePen(void* self)
 {
     return new QPen(static_cast<QXYSeries*>(self)->bestFitLinePen());
-}
-
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_bestFitLinePenChanged(void* self, void* pen)
-{
-    static_cast<QXYSeries*>(self)->bestFitLinePenChanged((pen ? *static_cast<QPen*>(pen) : QsApiDefaultValue<QPen>()));
-}
-
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_bestFitLineVisibilityChanged(void* self, bool visible)
-{
-    static_cast<QXYSeries*>(self)->bestFitLineVisibilityChanged(visible);
 }
 
 extern "C" __declspec(dllexport) bool qs_api_QXYSeries_bestFitLineVisible(void* self)
@@ -4618,11 +4568,6 @@ extern "C" __declspec(dllexport) bool qs_api_QXYSeries_isPointSelected(void* sel
 extern "C" __declspec(dllexport) void* qs_api_QXYSeries_lightMarker(void* self)
 {
     return new QImage(static_cast<QXYSeries*>(self)->lightMarker());
-}
-
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_lightMarkerChanged(void* self, void* lightMarker)
-{
-    static_cast<QXYSeries*>(self)->lightMarkerChanged((lightMarker ? *static_cast<QImage*>(lightMarker) : QsApiDefaultValue<QImage>()));
 }
 
 extern "C" __declspec(dllexport) double qs_api_QXYSeries_markerSize(void* self)
@@ -4750,19 +4695,9 @@ extern "C" __declspec(dllexport) void* qs_api_QXYSeries_selectedColor(void* self
     return new QColor(static_cast<QXYSeries*>(self)->selectedColor());
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_selectedColorChanged(void* self, void* color)
-{
-    static_cast<QXYSeries*>(self)->selectedColorChanged((color ? *static_cast<QColor*>(color) : QsApiDefaultValue<QColor>()));
-}
-
 extern "C" __declspec(dllexport) void* qs_api_QXYSeries_selectedLightMarker(void* self)
 {
     return new QImage(static_cast<QXYSeries*>(self)->selectedLightMarker());
-}
-
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_selectedLightMarkerChanged(void* self, void* selectedLightMarker)
-{
-    static_cast<QXYSeries*>(self)->selectedLightMarkerChanged((selectedLightMarker ? *static_cast<QImage*>(selectedLightMarker) : QsApiDefaultValue<QImage>()));
 }
 
 extern "C" __declspec(dllexport) void* qs_api_QXYSeries_selectedPoints(void* self)
