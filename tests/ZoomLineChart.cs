@@ -93,24 +93,41 @@ namespace QtSharp.Charts.Tests
             check.Check(lo >= -101 && hi <= 121,
                 $"the wave stays within the expected band ({lo:F1}..{hi:F1})");
 
+            // The rest of this test reads the state a zoom ends up in, and with SeriesAnimations on
+            // that state is mid-flight for a while after the call, which makes the assertions a race
+            // (it failed roughly one run in ten that way). The example's own setting has been
+            // asserted above, so it is turned off for the mechanics.
+            chart.SetAnimationOptions(QChart.AnimationOptions.NoAnimation);
+            ChartsAssertions.Pump();
+
             // Zoom, then scroll, both through the keyboard path Qt routes into the managed override.
+            //
+            // The count is compared against what it was, not against a fixed number: a key posted
+            // with sendEvent is delivered through the queue, so a delivery can land during the next
+            // block's pump. What this is here to show is that Qt reaches the override at all.
             check.Check(!chart.IsZoomed(), "the chart starts unzoomed");
+            int seen = view.KeyPresses;
             ApiRuntime.SendKeyPress(view.Handle, (int)Qt.Key.Key_Plus);
-            ChartsAssertions.Pump(5);
-            check.Check(view.KeyPresses == 1, $"Qt routed the + key into the C# override (got {view.KeyPresses})");
+            ChartsAssertions.Pump(8);
+            check.Check(view.KeyPresses > seen,
+                $"Qt routed the + key into the C# override ({seen} -> {view.KeyPresses})");
             chart.ZoomIn();
+            ChartsAssertions.Pump(3);
             check.Check(chart.IsZoomed(), "zooming the chart in puts it in the zoomed state");
             chart.ZoomOut();
+            ChartsAssertions.Pump(3);
+            seen = view.KeyPresses;
             ApiRuntime.SendKeyPress(view.Handle, (int)Qt.Key.Key_Minus);
-            ChartsAssertions.Pump(5);
-            check.Check(view.KeyPresses == 2, $"and the - key too (got {view.KeyPresses})");
+            ChartsAssertions.Pump(8);
+            check.Check(view.KeyPresses > seen, $"and the - key too ({seen} -> {view.KeyPresses})");
 
             // The arrow keys are the scrolling half; the axis window has to move.
             var axisX = QValueAxis.FromHandle(chart.Axes(Qt.Orientations.Horizontal, null)[0].Handle);
             double minBefore = axisX.Min;
+            seen = view.KeyPresses;
             ApiRuntime.SendKeyPress(view.Handle, (int)Qt.Key.Key_Right);
-            ChartsAssertions.Pump(5);
-            check.Check(view.KeyPresses == 3, "the arrow key reached the override");
+            ChartsAssertions.Pump(8);
+            check.Check(view.KeyPresses > seen, "the arrow key reached the override");
             check.Check(axisX.Min != minBefore || chart.IsZoomed() == false,
                 $"the arrow key scrolled the chart (x min {minBefore} -> {axisX.Min})");
 
