@@ -81,10 +81,13 @@ namespace QtSharp.Charts.Tests
 
             check.Check(localizedInk != plainInk,
                 $"the two draws differ, so the unit really is rendered differently ({plainInk} vs {localizedInk} ink samples)");
-            check.Check(localizedInk >= plainInk,
-                $"and the localized one is not the sparser of the two ({localizedInk} vs {plainInk})");
 
-            check.Info($"plain: TO Latin-1 -> '?' ({plainInk} ink); localized: pre/number/post ({localizedInk} ink)");
+            // How many pixels each form covers depends on which font resolves the glyph - on a
+            // machine without a CJK font the '核' may fall back to a box that is wider or thinner
+            // than a '?' - so the amounts are reported rather than asserted. The local run measured
+            // 185 against 250; the CI runner, with different fonts, 217 against 212. What is being
+            // pinned down is that the two differ at all.
+            check.Info($"plain: toLatin1 -> '?' ({plainInk} ink); localized: pre+number+post ({localizedInk} ink)");
 
             // The recipe needs the format to match the localized matcher, which wants a precision:
             // "%.2f" does, a bare "%g" does not.
