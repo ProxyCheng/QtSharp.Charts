@@ -2761,19 +2761,19 @@ extern "C" __declspec(dllexport) bool qs_api_QChart_localizeNumbers(void* self)
     return static_cast<QChart*>(self)->localizeNumbers();
 }
 
-extern "C" __declspec(dllexport) void* qs_api_QChart_mapToPosition(void* self, void* value, void* series)
+extern "C" __declspec(dllexport) QsApiPointF qs_api_QChart_mapToPosition(void* self, QsApiPointF value, void* series)
 {
-    return new QPointF(static_cast<QChart*>(self)->mapToPosition((value ? *static_cast<QPointF*>(value) : QsApiDefaultValue<QPointF>()), static_cast<QAbstractSeries*>(series)));
+    return QsApiPointF{ static_cast<QChart*>(self)->mapToPosition(QPointF(value.x, value.y), static_cast<QAbstractSeries*>(series)).x(), static_cast<QChart*>(self)->mapToPosition(QPointF(value.x, value.y), static_cast<QAbstractSeries*>(series)).y() };
 }
 
-extern "C" __declspec(dllexport) void* qs_api_QChart_mapToValue(void* self, void* position, void* series)
+extern "C" __declspec(dllexport) QsApiPointF qs_api_QChart_mapToValue(void* self, QsApiPointF position, void* series)
 {
-    return new QPointF(static_cast<QChart*>(self)->mapToValue((position ? *static_cast<QPointF*>(position) : QsApiDefaultValue<QPointF>()), static_cast<QAbstractSeries*>(series)));
+    return QsApiPointF{ static_cast<QChart*>(self)->mapToValue(QPointF(position.x, position.y), static_cast<QAbstractSeries*>(series)).x(), static_cast<QChart*>(self)->mapToValue(QPointF(position.x, position.y), static_cast<QAbstractSeries*>(series)).y() };
 }
 
-extern "C" __declspec(dllexport) void* qs_api_QChart_margins(void* self)
+extern "C" __declspec(dllexport) QsApiMargins qs_api_QChart_margins(void* self)
 {
-    return new QMargins(static_cast<QChart*>(self)->margins());
+    return QsApiMargins{ static_cast<QChart*>(self)->margins().left(), static_cast<QChart*>(self)->margins().top(), static_cast<QChart*>(self)->margins().right(), static_cast<QChart*>(self)->margins().bottom() };
 }
 
 extern "C" __declspec(dllexport) void* qs_api_QChart_metaObject(void* self)
@@ -2781,9 +2781,9 @@ extern "C" __declspec(dllexport) void* qs_api_QChart_metaObject(void* self)
     return static_cast<void*>(const_cast<QMetaObject*>(static_cast<QChart*>(self)->metaObject()));
 }
 
-extern "C" __declspec(dllexport) void* qs_api_QChart_plotArea(void* self)
+extern "C" __declspec(dllexport) QsApiRectF qs_api_QChart_plotArea(void* self)
 {
-    return new QRectF(static_cast<QChart*>(self)->plotArea());
+    return QsApiRectF{ static_cast<QChart*>(self)->plotArea().x(), static_cast<QChart*>(self)->plotArea().y(), static_cast<QChart*>(self)->plotArea().width(), static_cast<QChart*>(self)->plotArea().height() };
 }
 
 extern "C" __declspec(dllexport) void* qs_api_QChart_plotAreaBackgroundBrush(void* self)
@@ -2887,14 +2887,14 @@ extern "C" __declspec(dllexport) void qs_api_QChart_setLocalizeNumbers(void* sel
     static_cast<QChart*>(self)->setLocalizeNumbers(localize);
 }
 
-extern "C" __declspec(dllexport) void qs_api_QChart_setMargins(void* self, void* margins)
+extern "C" __declspec(dllexport) void qs_api_QChart_setMargins(void* self, QsApiMargins margins)
 {
-    static_cast<QChart*>(self)->setMargins((margins ? *static_cast<QMargins*>(margins) : QsApiDefaultValue<QMargins>()));
+    static_cast<QChart*>(self)->setMargins(QMargins(margins.left, margins.top, margins.right, margins.bottom));
 }
 
-extern "C" __declspec(dllexport) void qs_api_QChart_setPlotArea(void* self, void* rect)
+extern "C" __declspec(dllexport) void qs_api_QChart_setPlotArea(void* self, QsApiRectF rect)
 {
-    static_cast<QChart*>(self)->setPlotArea((rect ? *static_cast<QRectF*>(rect) : QsApiDefaultValue<QRectF>()));
+    static_cast<QChart*>(self)->setPlotArea(QRectF(rect.x, rect.y, rect.width, rect.height));
 }
 
 extern "C" __declspec(dllexport) void qs_api_QChart_setPlotAreaBackgroundBrush(void* self, void* brush)
@@ -2967,9 +2967,9 @@ extern "C" __declspec(dllexport) void qs_api_QChart_zoomIn(void* self)
     static_cast<QChart*>(self)->zoomIn();
 }
 
-extern "C" __declspec(dllexport) void qs_api_QChart_zoomIn2(void* self, void* rect)
+extern "C" __declspec(dllexport) void qs_api_QChart_zoomIn2(void* self, QsApiRectF rect)
 {
-    static_cast<QChart*>(self)->zoomIn((rect ? *static_cast<QRectF*>(rect) : QsApiDefaultValue<QRectF>()));
+    static_cast<QChart*>(self)->zoomIn(QRectF(rect.x, rect.y, rect.width, rect.height));
 }
 
 extern "C" __declspec(dllexport) void qs_api_QChart_zoomOut(void* self)
@@ -6080,9 +6080,9 @@ extern "C" __declspec(dllexport) void qs_api_QXYSeries_append(void* self, void* 
     static_cast<QXYSeries*>(self)->append(*static_cast<QList<QPointF>*>(points));
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_append2(void* self, void* point)
+extern "C" __declspec(dllexport) void qs_api_QXYSeries_append2(void* self, QsApiPointF point)
 {
-    static_cast<QXYSeries*>(self)->append((point ? *static_cast<QPointF*>(point) : QsApiDefaultValue<QPointF>()));
+    static_cast<QXYSeries*>(self)->append(QPointF(point.x, point.y));
 }
 
 extern "C" __declspec(dllexport) void qs_api_QXYSeries_append3(void* self, double x, double y)
@@ -6090,9 +6090,9 @@ extern "C" __declspec(dllexport) void qs_api_QXYSeries_append3(void* self, doubl
     static_cast<QXYSeries*>(self)->append(x, y);
 }
 
-extern "C" __declspec(dllexport) void* qs_api_QXYSeries_at(void* self, int index)
+extern "C" __declspec(dllexport) QsApiPointF qs_api_QXYSeries_at(void* self, int index)
 {
-    return new QPointF(static_cast<QXYSeries*>(self)->at(index));
+    return QsApiPointF{ static_cast<QXYSeries*>(self)->at(index).x(), static_cast<QXYSeries*>(self)->at(index).y() };
 }
 
 extern "C" __declspec(dllexport) void* qs_api_QXYSeries_bestFitLineColor(void* self)
@@ -6170,9 +6170,9 @@ extern "C" __declspec(dllexport) void qs_api_QXYSeries_deselectPoints(void* self
     static_cast<QXYSeries*>(self)->deselectPoints(*static_cast<QList<int>*>(indexes));
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_insert(void* self, int index, void* point)
+extern "C" __declspec(dllexport) void qs_api_QXYSeries_insert(void* self, int index, QsApiPointF point)
 {
-    static_cast<QXYSeries*>(self)->insert(index, (point ? *static_cast<QPointF*>(point) : QsApiDefaultValue<QPointF>()));
+    static_cast<QXYSeries*>(self)->insert(index, QPointF(point.x, point.y));
 }
 
 extern "C" __declspec(dllexport) bool qs_api_QXYSeries_isPointSelected(void* self, int index)
@@ -6245,9 +6245,9 @@ extern "C" __declspec(dllexport) bool qs_api_QXYSeries_pointsVisible(void* self)
     return static_cast<QXYSeries*>(self)->pointsVisible();
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_remove(void* self, void* point)
+extern "C" __declspec(dllexport) void qs_api_QXYSeries_remove(void* self, QsApiPointF point)
 {
-    static_cast<QXYSeries*>(self)->remove((point ? *static_cast<QPointF*>(point) : QsApiDefaultValue<QPointF>()));
+    static_cast<QXYSeries*>(self)->remove(QPointF(point.x, point.y));
 }
 
 extern "C" __declspec(dllexport) void qs_api_QXYSeries_remove2(void* self, int index)
@@ -6270,14 +6270,14 @@ extern "C" __declspec(dllexport) void qs_api_QXYSeries_replace(void* self, void*
     static_cast<QXYSeries*>(self)->replace(*static_cast<QList<QPointF>*>(points));
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_replace2(void* self, void* oldPoint, void* newPoint)
+extern "C" __declspec(dllexport) void qs_api_QXYSeries_replace2(void* self, QsApiPointF oldPoint, QsApiPointF newPoint)
 {
-    static_cast<QXYSeries*>(self)->replace((oldPoint ? *static_cast<QPointF*>(oldPoint) : QsApiDefaultValue<QPointF>()), (newPoint ? *static_cast<QPointF*>(newPoint) : QsApiDefaultValue<QPointF>()));
+    static_cast<QXYSeries*>(self)->replace(QPointF(oldPoint.x, oldPoint.y), QPointF(newPoint.x, newPoint.y));
 }
 
-extern "C" __declspec(dllexport) void qs_api_QXYSeries_replace3(void* self, int index, void* newPoint)
+extern "C" __declspec(dllexport) void qs_api_QXYSeries_replace3(void* self, int index, QsApiPointF newPoint)
 {
-    static_cast<QXYSeries*>(self)->replace(index, (newPoint ? *static_cast<QPointF*>(newPoint) : QsApiDefaultValue<QPointF>()));
+    static_cast<QXYSeries*>(self)->replace(index, QPointF(newPoint.x, newPoint.y));
 }
 
 extern "C" __declspec(dllexport) void qs_api_QXYSeries_replace4(void* self, int index, double newX, double newY)
@@ -6632,17 +6632,17 @@ extern "C" __declspec(dllexport) void* qs_api_list_QPointF_new()
 {
     return new QList<QPointF>();
 }
-extern "C" __declspec(dllexport) void qs_api_list_QPointF_append(void* list, void* item)
+extern "C" __declspec(dllexport) void qs_api_list_QPointF_append(void* list, QsApiPointF item)
 {
-    static_cast<QList<QPointF>*>(list)->append(*static_cast<QPointF*>(item));
+    static_cast<QList<QPointF>*>(list)->append(QPointF(item.x, item.y));
 }
 extern "C" __declspec(dllexport) int qs_api_list_QPointF_count(const void* list)
 {
     return static_cast<int>(static_cast<const QList<QPointF>*>(list)->size());
 }
-extern "C" __declspec(dllexport) void* qs_api_list_QPointF_at(const void* list, int index)
+extern "C" __declspec(dllexport) QsApiPointF qs_api_list_QPointF_at(const void* list, int index)
 {
-    return new QPointF(static_cast<const QList<QPointF>*>(list)->at(index));
+    return QsApiPointF{ static_cast<const QList<QPointF>*>(list)->at(index).x(), static_cast<const QList<QPointF>*>(list)->at(index).y() };
 }
 extern "C" __declspec(dllexport) void qs_api_list_QPointF_free(void* list)
 {

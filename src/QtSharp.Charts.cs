@@ -2279,14 +2279,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QPointF> ClickedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "clicked(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -2295,7 +2295,7 @@ namespace QtSharp.Charts
         /// <summary>The clicked signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> Clicked
         {
-            add => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "clicked(QPointF)", value);
         }
 
@@ -2321,14 +2321,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QPointF> DoubleClickedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "doubleClicked(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -2337,20 +2337,20 @@ namespace QtSharp.Charts
         /// <summary>The doubleClicked signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> DoubleClicked
         {
-            add => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "doubleClicked(QPointF)", value);
         }
 
         public QSignal<QPointF, bool> HoveredSignal =>
-            new QSignal<QPointF, bool>(h => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0)),
+            new QSignal<QPointF, bool>(h => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0)),
                 (a1, a2) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     bool __e1 = a2;
                     unsafe
                     {
                         void** __argv = stackalloc void*[2];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         __argv[1] = &__e1;
                         ApiRuntime.Emit(Handle, "hovered(QPointF,bool)", (IntPtr)__argv, 2);
                     }
@@ -2360,7 +2360,7 @@ namespace QtSharp.Charts
         /// <summary>The hovered signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF, bool> Hovered
         {
-            add => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0), value);
+            add => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0), value);
             remove => ApiRuntime.Disconnect(Handle, "hovered(QPointF,bool)", value);
         }
 
@@ -2477,14 +2477,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QPointF> PressedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "pressed(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -2493,19 +2493,19 @@ namespace QtSharp.Charts
         /// <summary>The pressed signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> Pressed
         {
-            add => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "pressed(QPointF)", value);
         }
 
         public QSignal<QPointF> ReleasedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "released(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -2514,7 +2514,7 @@ namespace QtSharp.Charts
         /// <summary>The released signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> Released
         {
-            add => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "released(QPointF)", value);
         }
 
@@ -6390,17 +6390,17 @@ namespace QtSharp.Charts
 
         public QPointF MapToPosition(QPointF value, QAbstractSeries series = null)
         {
-            return QPointF.FromOwnedHandle(ApiNative.QChart_mapToPosition(Handle, value?.Handle ?? IntPtr.Zero, series?.Handle ?? IntPtr.Zero));
+            return ApiNative.QChart_mapToPosition(Handle, value, series?.Handle ?? IntPtr.Zero);
         }
 
         public QPointF MapToValue(QPointF position, QAbstractSeries series = null)
         {
-            return QPointF.FromOwnedHandle(ApiNative.QChart_mapToValue(Handle, position?.Handle ?? IntPtr.Zero, series?.Handle ?? IntPtr.Zero));
+            return ApiNative.QChart_mapToValue(Handle, position, series?.Handle ?? IntPtr.Zero);
         }
 
         public QMargins margins()
         {
-            return QMargins.FromOwnedHandle(ApiNative.QChart_margins(Handle));
+            return ApiNative.QChart_margins(Handle);
         }
 
         public new QMetaObject MetaObject()
@@ -6410,7 +6410,7 @@ namespace QtSharp.Charts
 
         public QRectF plotArea()
         {
-            return QRectF.FromOwnedHandle(ApiNative.QChart_plotArea(Handle));
+            return ApiNative.QChart_plotArea(Handle);
         }
 
         public QBrush PlotAreaBackgroundBrush()
@@ -6510,12 +6510,12 @@ namespace QtSharp.Charts
 
         public void SetMargins(QMargins margins)
         {
-            ApiNative.QChart_setMargins(Handle, margins?.Handle ?? IntPtr.Zero);
+            ApiNative.QChart_setMargins(Handle, margins);
         }
 
         public void SetPlotArea(QRectF rect)
         {
-            ApiNative.QChart_setPlotArea(Handle, rect?.Handle ?? IntPtr.Zero);
+            ApiNative.QChart_setPlotArea(Handle, rect);
         }
 
         public void SetPlotAreaBackgroundBrush(QBrush brush)
@@ -6590,7 +6590,7 @@ namespace QtSharp.Charts
 
         public void ZoomIn(QRectF rect)
         {
-            ApiNative.QChart_zoomIn2(Handle, rect?.Handle ?? IntPtr.Zero);
+            ApiNative.QChart_zoomIn2(Handle, rect);
         }
 
         public void ZoomOut()
@@ -6604,14 +6604,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QRectF> PlotAreaChangedSignal =>
-            new QSignal<QRectF>(h => ApiRuntime.Connect(Handle, "plotAreaChanged(QRectF)", (argv, _) => h(QRectF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QRectF>(h => ApiRuntime.Connect(Handle, "plotAreaChanged(QRectF)", (argv, _) => h(*(QRectF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "plotAreaChanged(QRectF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -6620,7 +6620,7 @@ namespace QtSharp.Charts
         /// <summary>The plotAreaChanged signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QRectF> PlotAreaChanged
         {
-            add => ApiRuntime.Connect(Handle, "plotAreaChanged(QRectF)", (argv, _) => value(QRectF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "plotAreaChanged(QRectF)", (argv, _) => value(*(QRectF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "plotAreaChanged(QRectF)", value);
         }
 
@@ -6711,8 +6711,8 @@ namespace QtSharp.Charts
                 }
                 case 14: // sizeHint
                 {
-                    var result = target.SizeHint((Qt.SizeHint)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)), QSizeF.FromOwnedHandle(ApiNative.Clone_QSizeF(Marshal.ReadIntPtr(argv, 2 * IntPtr.Size))));
-                    ApiNative.Assign_QSizeF(Marshal.ReadIntPtr(argv, 0), result?.Handle ?? IntPtr.Zero);
+                    var result = target.SizeHint((Qt.SizeHint)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)), *(QSizeF*)Marshal.ReadIntPtr(argv, 2 * IntPtr.Size));
+                    Marshal.StructureToPtr(result, Marshal.ReadIntPtr(argv, 0), false);
                     break;
                 }
             }
@@ -7020,7 +7020,7 @@ namespace QtSharp.Charts
                 case 22: // minimumSizeHint
                 {
                     var result = target.MinimumSizeHint();
-                    ApiNative.Assign_QSize(Marshal.ReadIntPtr(argv, 0), result?.Handle ?? IntPtr.Zero);
+                    Marshal.StructureToPtr(result, Marshal.ReadIntPtr(argv, 0), false);
                     break;
                 }
                 case 23: // mouseDoubleClickEvent
@@ -7066,7 +7066,7 @@ namespace QtSharp.Charts
                 case 31: // sizeHint
                 {
                     var result = target.SizeHint();
-                    ApiNative.Assign_QSize(Marshal.ReadIntPtr(argv, 0), result?.Handle ?? IntPtr.Zero);
+                    Marshal.StructureToPtr(result, Marshal.ReadIntPtr(argv, 0), false);
                     break;
                 }
                 case 32: // tabletEvent
@@ -8931,8 +8931,8 @@ namespace QtSharp.Charts
                 }
                 case 14: // sizeHint
                 {
-                    var result = target.SizeHint((Qt.SizeHint)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)), QSizeF.FromOwnedHandle(ApiNative.Clone_QSizeF(Marshal.ReadIntPtr(argv, 2 * IntPtr.Size))));
-                    ApiNative.Assign_QSizeF(Marshal.ReadIntPtr(argv, 0), result?.Handle ?? IntPtr.Zero);
+                    var result = target.SizeHint((Qt.SizeHint)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)), *(QSizeF*)Marshal.ReadIntPtr(argv, 2 * IntPtr.Size));
+                    Marshal.StructureToPtr(result, Marshal.ReadIntPtr(argv, 0), false);
                     break;
                 }
             }
@@ -11347,8 +11347,8 @@ namespace QtSharp.Charts
                 }
                 case 14: // sizeHint
                 {
-                    var result = target.SizeHint((Qt.SizeHint)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)), QSizeF.FromOwnedHandle(ApiNative.Clone_QSizeF(Marshal.ReadIntPtr(argv, 2 * IntPtr.Size))));
-                    ApiNative.Assign_QSizeF(Marshal.ReadIntPtr(argv, 0), result?.Handle ?? IntPtr.Zero);
+                    var result = target.SizeHint((Qt.SizeHint)Marshal.ReadInt32(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)), *(QSizeF*)Marshal.ReadIntPtr(argv, 2 * IntPtr.Size));
+                    Marshal.StructureToPtr(result, Marshal.ReadIntPtr(argv, 0), false);
                     break;
                 }
             }
@@ -13152,7 +13152,7 @@ namespace QtSharp.Charts
 
         public void Append(QPointF point)
         {
-            ApiNative.QXYSeries_append2(Handle, point?.Handle ?? IntPtr.Zero);
+            ApiNative.QXYSeries_append2(Handle, point);
         }
 
         public void Append(double x, double y)
@@ -13162,7 +13162,7 @@ namespace QtSharp.Charts
 
         public QPointF At(int index)
         {
-            return QPointF.FromOwnedHandle(ApiNative.QXYSeries_at(Handle, index));
+            return ApiNative.QXYSeries_at(Handle, index);
         }
 
         public QColor bestFitLineColor()
@@ -13258,7 +13258,7 @@ namespace QtSharp.Charts
 
         public void Insert(int index, QPointF point)
         {
-            ApiNative.QXYSeries_insert(Handle, index, point?.Handle ?? IntPtr.Zero);
+            ApiNative.QXYSeries_insert(Handle, index, point);
         }
 
         public bool IsPointSelected(int index)
@@ -13333,7 +13333,7 @@ namespace QtSharp.Charts
 
         public void Remove(QPointF point)
         {
-            ApiNative.QXYSeries_remove(Handle, point?.Handle ?? IntPtr.Zero);
+            ApiNative.QXYSeries_remove(Handle, point);
         }
 
         public void Remove(int index)
@@ -13366,12 +13366,12 @@ namespace QtSharp.Charts
 
         public void Replace(QPointF oldPoint, QPointF newPoint)
         {
-            ApiNative.QXYSeries_replace2(Handle, oldPoint?.Handle ?? IntPtr.Zero, newPoint?.Handle ?? IntPtr.Zero);
+            ApiNative.QXYSeries_replace2(Handle, oldPoint, newPoint);
         }
 
         public void Replace(int index, QPointF newPoint)
         {
-            ApiNative.QXYSeries_replace3(Handle, index, newPoint?.Handle ?? IntPtr.Zero);
+            ApiNative.QXYSeries_replace3(Handle, index, newPoint);
         }
 
         public void Replace(int index, double newX, double newY)
@@ -13620,14 +13620,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QPointF> ClickedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "clicked(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -13636,7 +13636,7 @@ namespace QtSharp.Charts
         /// <summary>The clicked signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> Clicked
         {
-            add => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "clicked(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "clicked(QPointF)", value);
         }
 
@@ -13662,14 +13662,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QPointF> DoubleClickedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "doubleClicked(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -13678,20 +13678,20 @@ namespace QtSharp.Charts
         /// <summary>The doubleClicked signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> DoubleClicked
         {
-            add => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "doubleClicked(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "doubleClicked(QPointF)", value);
         }
 
         public QSignal<QPointF, bool> HoveredSignal =>
-            new QSignal<QPointF, bool>(h => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0)),
+            new QSignal<QPointF, bool>(h => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0)),
                 (a1, a2) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     bool __e1 = a2;
                     unsafe
                     {
                         void** __argv = stackalloc void*[2];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         __argv[1] = &__e1;
                         ApiRuntime.Emit(Handle, "hovered(QPointF,bool)", (IntPtr)__argv, 2);
                     }
@@ -13701,7 +13701,7 @@ namespace QtSharp.Charts
         /// <summary>The hovered signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF, bool> Hovered
         {
-            add => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0), value);
+            add => ApiRuntime.Connect(Handle, "hovered(QPointF,bool)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size), Marshal.ReadByte(Marshal.ReadIntPtr(argv, 1 * IntPtr.Size)) != 0), value);
             remove => ApiRuntime.Disconnect(Handle, "hovered(QPointF,bool)", value);
         }
 
@@ -13985,14 +13985,14 @@ namespace QtSharp.Charts
         }
 
         public QSignal<QPointF> PressedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "pressed(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -14001,19 +14001,19 @@ namespace QtSharp.Charts
         /// <summary>The pressed signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> Pressed
         {
-            add => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "pressed(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "pressed(QPointF)", value);
         }
 
         public QSignal<QPointF> ReleasedSignal =>
-            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => h(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)))),
+            new QSignal<QPointF>(h => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => h(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))),
                 (a1) =>
                 {
-                    var __e0 = a1?.Handle ?? IntPtr.Zero;
+                    var __e0 = a1;
                     unsafe
                     {
                         void** __argv = stackalloc void*[1];
-                        __argv[0] = (void*)__e0;
+                        __argv[0] = &__e0;
                         ApiRuntime.Emit(Handle, "released(QPointF)", (IntPtr)__argv, 1);
                     }
                 }
@@ -14022,7 +14022,7 @@ namespace QtSharp.Charts
         /// <summary>The released signal as a C# event (`+=` handler, `-=` handler disconnects).</summary>
         public event Action<QPointF> Released
         {
-            add => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => value(QPointF.FromTransientHandle(Marshal.ReadIntPtr(argv, 0 * IntPtr.Size))), value);
+            add => ApiRuntime.Connect(Handle, "released(QPointF)", (argv, _) => value(*(QPointF*)Marshal.ReadIntPtr(argv, 0 * IntPtr.Size)), value);
             remove => ApiRuntime.Disconnect(Handle, "released(QPointF)", value);
         }
 
@@ -15183,19 +15183,19 @@ namespace QtSharp.Charts
         internal static extern bool QChart_localizeNumbers(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_mapToPosition", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr QChart_mapToPosition(IntPtr self, IntPtr value, IntPtr series);
+        internal static extern QPointF QChart_mapToPosition(IntPtr self, QPointF value, IntPtr series);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_mapToValue", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr QChart_mapToValue(IntPtr self, IntPtr position, IntPtr series);
+        internal static extern QPointF QChart_mapToValue(IntPtr self, QPointF position, IntPtr series);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_margins", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr QChart_margins(IntPtr self);
+        internal static extern QMargins QChart_margins(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_metaObject", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QChart_metaObject(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_plotArea", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr QChart_plotArea(IntPtr self);
+        internal static extern QRectF QChart_plotArea(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_plotAreaBackgroundBrush", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QChart_plotAreaBackgroundBrush(IntPtr self);
@@ -15255,10 +15255,10 @@ namespace QtSharp.Charts
         internal static extern void QChart_setLocalizeNumbers(IntPtr self, bool localize);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_setMargins", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QChart_setMargins(IntPtr self, IntPtr margins);
+        internal static extern void QChart_setMargins(IntPtr self, QMargins margins);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_setPlotArea", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QChart_setPlotArea(IntPtr self, IntPtr rect);
+        internal static extern void QChart_setPlotArea(IntPtr self, QRectF rect);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_setPlotAreaBackgroundBrush", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QChart_setPlotAreaBackgroundBrush(IntPtr self, IntPtr brush);
@@ -15303,7 +15303,7 @@ namespace QtSharp.Charts
         internal static extern void QChart_zoomIn(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_zoomIn2", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QChart_zoomIn2(IntPtr self, IntPtr rect);
+        internal static extern void QChart_zoomIn2(IntPtr self, QRectF rect);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QChart_zoomOut", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QChart_zoomOut(IntPtr self);
@@ -16286,13 +16286,13 @@ namespace QtSharp.Charts
         internal static extern void QXYSeries_append(IntPtr self, IntPtr points);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_append2", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_append2(IntPtr self, IntPtr point);
+        internal static extern void QXYSeries_append2(IntPtr self, QPointF point);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_append3", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QXYSeries_append3(IntPtr self, double x, double y);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_at", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr QXYSeries_at(IntPtr self, int index);
+        internal static extern QPointF QXYSeries_at(IntPtr self, int index);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_bestFitLineColor", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr QXYSeries_bestFitLineColor(IntPtr self);
@@ -16341,7 +16341,7 @@ namespace QtSharp.Charts
         internal static extern void QXYSeries_deselectPoints(IntPtr self, IntPtr indexes);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_insert", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_insert(IntPtr self, int index, IntPtr point);
+        internal static extern void QXYSeries_insert(IntPtr self, int index, QPointF point);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_isPointSelected", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -16390,7 +16390,7 @@ namespace QtSharp.Charts
         internal static extern bool QXYSeries_pointsVisible(IntPtr self);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_remove", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_remove(IntPtr self, IntPtr point);
+        internal static extern void QXYSeries_remove(IntPtr self, QPointF point);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_remove2", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QXYSeries_remove2(IntPtr self, int index);
@@ -16405,10 +16405,10 @@ namespace QtSharp.Charts
         internal static extern void QXYSeries_replace(IntPtr self, IntPtr points);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_replace2", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_replace2(IntPtr self, IntPtr oldPoint, IntPtr newPoint);
+        internal static extern void QXYSeries_replace2(IntPtr self, QPointF oldPoint, QPointF newPoint);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_replace3", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void QXYSeries_replace3(IntPtr self, int index, IntPtr newPoint);
+        internal static extern void QXYSeries_replace3(IntPtr self, int index, QPointF newPoint);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_QXYSeries_replace4", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void QXYSeries_replace4(IntPtr self, int index, double newX, double newY);
@@ -16630,13 +16630,13 @@ namespace QtSharp.Charts
         internal static extern IntPtr List_QPointF_new();
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_list_QPointF_append", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void List_QPointF_append(IntPtr list, IntPtr item);
+        internal static extern void List_QPointF_append(IntPtr list, QPointF item);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_list_QPointF_count", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int List_QPointF_count(IntPtr list);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_list_QPointF_at", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr List_QPointF_at(IntPtr list, int index);
+        internal static extern QPointF List_QPointF_at(IntPtr list, int index);
 
         [SuppressUnmanagedCodeSecurity, DllImport(Library, EntryPoint = "qs_api_list_QPointF_free", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void List_QPointF_free(IntPtr list);
@@ -17040,7 +17040,7 @@ namespace QtSharp.Charts
             var list = ApiNative.List_QPointF_new();
             if (items != null)
                 foreach (var item in items)
-                    ApiNative.List_QPointF_append(list, item?.Handle ?? IntPtr.Zero);
+                    ApiNative.List_QPointF_append(list, item);
             return list;
         }
 
@@ -17061,7 +17061,7 @@ namespace QtSharp.Charts
             int count = ApiNative.List_QPointF_count(list);
             var result = new QPointF[count];
             for (int i = 0; i < count; i++)
-                result[i] = QPointF.FromOwnedHandle(ApiNative.List_QPointF_at(list, i));
+                result[i] = ApiNative.List_QPointF_at(list, i);
             return result;
         }
 
