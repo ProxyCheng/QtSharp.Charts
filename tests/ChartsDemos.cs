@@ -53,6 +53,7 @@ namespace QtSharp.Charts.Tests
             ("dynamicspline", DynamicSplineChart.Run),
             ("chartthemes", ChartThemes.Run),
             ("customchart", CustomChart.Run),
+            ("axislabelformat", AxisLabelFormat.Run),
             ("zoomlinechart", ZoomLineChart.Run),
         };
 
