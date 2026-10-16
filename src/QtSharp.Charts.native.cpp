@@ -342,6 +342,17 @@
 #include <QtXml/qdom.h>
 #include "QtSharpApiRuntime.h"
 
+typedef struct { double x, y; } QsApiPointF;
+typedef struct { int x, y; } QsApiPoint;
+typedef struct { int width, height; } QsApiSize;
+typedef struct { double width, height; } QsApiSizeF;
+typedef struct { int left, top, right, bottom; } QsApiMargins;
+typedef struct { double left, top, right, bottom; } QsApiMarginsF;
+typedef struct { int x1, y1, x2, y2; } QsApiLine;
+typedef struct { double x1, y1, x2, y2; } QsApiLineF;
+typedef struct { double x, y, width, height; } QsApiRectF;
+typedef struct { int x1, y1, x2, y2; } QsApiRect;
+
 template <class T> T& QsApiDefaultValue() { static T value{}; return value; }
 
 class QsApi_QAbstractAxis : public QAbstractAxis
