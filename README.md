@@ -1,5 +1,9 @@
 # QtSharp.Charts
 
+[![CI](https://github.com/ProxyCheng/QtSharp.Charts/actions/workflows/ci.yml/badge.svg)](https://github.com/ProxyCheng/QtSharp.Charts/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/ProxyCheng/QtSharp.Charts?display_name=tag)](https://github.com/ProxyCheng/QtSharp.Charts/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Qt Charts for .NET, bound with [QtSharp](https://github.com/ProxyCheng/QtSharp).
 
 It is an **extension module**: a separate assembly and a separate package that sits beside
