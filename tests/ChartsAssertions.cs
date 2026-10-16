@@ -59,22 +59,21 @@ namespace QtSharp.Charts.Tests
         /// <summary>
         /// Shows or hides a chart's legend.
         ///
-        /// QLegend derives from QGraphicsWidget, and the core binding models that as a QObject plus a
-        /// QGraphicsItem *view* rather than as an inheritance chain (the same secondary-base
-        /// treatment a QWidget's QPaintDevice gets), so setVisible() is reached through
-        /// AsQGraphicsItem(). The Qt examples call legend()->hide() and legend()->setVisible();
-        /// this is where that ends up.
+        /// QLegend derives from QGraphicsWidget, which in C++ is a QGraphicsItem as well, and the
+        /// binding publishes that second base's members on QGraphicsObject - so setVisible() and the
+        /// visible property come in by inheritance, the way PyQt's QLegend has them. The Qt examples
+        /// call legend()->hide() and legend()->setVisible(); this is where that ends up.
         /// </summary>
         public static void SetLegendVisible(QChart chart, bool visible)
-            => chart.Legend().AsQGraphicsItem().SetVisible(visible);
+            => chart.Legend().SetVisible(visible);
 
         /// <summary>Hides the legend, the way the Qt examples' legend()->hide() does.</summary>
         public static void HideLegend(QChart chart)
-            => chart.Legend().AsQGraphicsItem().Hide();
+            => chart.Legend().Hide();
 
         /// <summary>Whether the legend is showing, matching legend()->isVisible().</summary>
         public static bool IsLegendVisible(QChart chart)
-            => chart.Legend().AsQGraphicsItem().IsVisible();
+            => chart.Legend().IsVisible();
 
         /// <summary>
         /// The QValueAxis view of an axis a chart created. QAbstractAxis::setRange takes QVariants

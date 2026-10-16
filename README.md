@@ -134,10 +134,11 @@ They are worth knowing before you write your own charts code:
   name collides with a nested enum of the same class (`QChart::AnimationOptions`,
   `QScatterSeries::MarkerShape`), the generated PascalCase property is dropped and the accessor keeps
   its C++ spelling. `SetAnimationOptions(...)` / `SetMarkerShape(...)` are unaffected.
-- **A legend is shown and hidden through `AsQGraphicsItem()`.** `QLegend` derives from
-  `QGraphicsWidget`, which the core binding models as a `QObject` plus a `QGraphicsItem` *view*
-  rather than as an inheritance chain, so `legend->hide()` becomes
-  `legend.AsQGraphicsItem().Hide()` - see `ChartsAssertions.HideLegend`.
+- **A legend is an item, so it has the item API.** `QLegend` derives from `QGraphicsWidget`, which
+  in C++ is a `QGraphicsItem` as well; the core binding publishes that second base's members on
+  `QGraphicsObject`, so `legend.Visible = false`, `legend.SetVisible(false)`, `legend.Hide()` and
+  `legend.Markers()` all work the way they do in PyQt. (Earlier core packages modelled the second
+  base as a view only, where the way in was `legend.AsQGraphicsItem().Hide()`.)
 - **`chart->axes(...).first()->setRange(0, 20)` goes through `QValueAxis`.** `QAbstractAxis::setRange`
   takes `QVariant`s (the axis may be any kind); the `qreal` overload the examples call belongs to
   `QValueAxis`, so the axis has to be viewed as one - see `ChartsAssertions.ValueAxis`.
