@@ -1,0 +1,8 @@
+<Project>
+
+  <!-- Imported automatically for any project that references the QtSharp.Charts package. -->
+  <PropertyGroup>
+    <QtChartsNativeDir Condition="'$(QtChartsNativeDir)' == ''">$(MSBuildThisFileDirectory)..\tools\native\</QtChartsNativeDir>
+  </PropertyGroup>
+
+</Project>

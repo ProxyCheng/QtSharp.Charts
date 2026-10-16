@@ -1,0 +1,18 @@
+# Build outputs
+**/bin/
+**/obj/
+*.obj
+*.log
+*.exp
+*.lib
+
+# IDE
+.vs/
+.idea/
+Backup/
+UpgradeLog*.htm
+
+# Not committed: the Qt pieces. Re-create them with tools or point at your own kit (see README).
+Qt/
+packages/
+out/

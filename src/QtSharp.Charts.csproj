@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The Qt Charts binding, as a package that sits beside QtSharp.Api.
+       It carries the managed binding plus its own native glue (QtSharp.Charts.Native.dll) and the
+       Qt Charts library the glue links. The core binding - its managed assembly, its native glue and
+       the Qt modules it already ships - is a dependency, not a copy. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>QtSharp.Charts</AssemblyName>
+    <RootNamespace>QtSharp.Charts</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS0108</NoWarn>
+
+    <PackageId>QtSharp.Charts</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>ProxyCheng</Authors>
+    <Description>Qt Charts for .NET, bound with QtSharp. Qt Charts is GPLv3-or-commercial - see NOTICE.md.</Description>
+    <PackageTags>Qt;Qt6;QtCharts;Charts;CSharp;dotnet;binding</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ProxyCheng/QtSharp.Charts</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ProxyCheng/QtSharp.Charts.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <QtChartsNativeDir Condition="'$(QtChartsNativeDir)' == ''">$(MSBuildThisFileDirectory)..\out\native</QtChartsNativeDir>
+    <QtChartsCoreVersion Condition="'$(QtChartsCoreVersion)' == ''">0.1.0</QtChartsCoreVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="QtSharp.Charts.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The core binding: the classes this module derives from, the runtime, and QtCore/QtGui/Widgets. -->
+    <PackageReference Include="QtSharp.Api" Version="$(QtChartsCoreVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="/" />
+    <None Include="..\NOTICE.md" Pack="true" PackagePath="/" />
+    <None Include="..\buildTransitive\*" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="$(QtChartsNativeDir)\QtSharp.Charts.Native.dll" Pack="true" PackagePath="tools/native/" />
+    <None Include="$(QtChartsNativeDir)\Qt6Charts.dll" Pack="true" PackagePath="tools/native/" />
+  </ItemGroup>
+
+  <Target Name="QtChartsPackCheck" BeforeTargets="GenerateNuspec">
+    <Error Condition="!Exists('$(QtChartsNativeDir)\QtSharp.Charts.Native.dll')"
+           Text="The native glue is missing - run: powershell -File build-native.ps1" />
+    <Error Condition="!Exists('$(QtChartsNativeDir)\Qt6Charts.dll')"
+           Text="Qt6Charts.dll is missing - run: powershell -File build-native.ps1 (it copies it from the Qt kit)." />
+  </Target>
+
+</Project>

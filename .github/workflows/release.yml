@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Package and release version, for example 0.1.0
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Pack and publish QtSharp.Charts
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Resolve the version
+        id: version
+        shell: pwsh
+        run: |
+          if ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            $version = '${{ inputs.version }}'
+            $tag = "v$version"
+          } else {
+            $tag = '${{ github.ref_name }}'
+            $version = $tag.Substring(1)
+          }
+          if ($version -notmatch '^\d+\.\d+\.\d+([-.][0-9A-Za-z.-]+)?$') { throw "Invalid release version: $version" }
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Fetch the Qt kit (qtbase + qtsvg + QtCharts)
+        shell: pwsh
+        run: ./scripts/build-qt-kit.ps1
+
+      - name: Fetch the core binding package
+        shell: pwsh
+        run: ./scripts/Fetch-Core.ps1
+
+      - name: Build the native glue
+        shell: pwsh
+        run: |
+          ./build-native.ps1 -QtDir "$env:QT_DIR"
+          if ($LASTEXITCODE -ne 0) { throw "the native build failed" }
+
+      - name: Pack
+        shell: pwsh
+        run: |
+          dotnet pack src/QtSharp.Charts.csproj -c Release -o out/packages --nologo `
+            "-p:Version=${{ steps.version.outputs.version }}"
+          if ($LASTEXITCODE -ne 0) { throw "packing failed" }
+
+      - name: Create checksums
+        shell: pwsh
+        run: |
+          $package = Get-ChildItem out/packages/*.nupkg | Select-Object -First 1
+          "$((Get-FileHash $package.FullName -Algorithm SHA256).Hash.ToLowerInvariant())  $($package.Name)" |
+            Set-Content out/packages/SHA256SUMS.txt -Encoding ascii
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $tag = '${{ steps.version.outputs.tag }}'
+          $notes = @"
+          ## QtSharp.Charts ${{ steps.version.outputs.version }}
+
+          Qt Charts for .NET, bound with QtSharp. Reference it beside ``QtSharp.Api``:
+
+          ```xml
+          <PackageReference Include="QtSharp.Api" Version="0.1.0" />
+          <PackageReference Include="QtSharp.Charts" Version="${{ steps.version.outputs.version }}" />
+          ```
+
+          **Qt Charts is GPLv3-or-commercial** - see NOTICE.md before you ship anything that uses it.
+          "@
+          $assets = @(Get-ChildItem out/packages/*.nupkg | ForEach-Object { $_.FullName })
+          $assets += (Resolve-Path out/packages/SHA256SUMS.txt).Path
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @assets --clobber
+            gh release edit $tag --title "QtSharp.Charts $tag" --notes $notes
+          } else {
+            gh release create $tag @assets --title "QtSharp.Charts $tag" --notes $notes
+          }

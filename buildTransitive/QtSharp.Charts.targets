@@ -1,0 +1,19 @@
+<Project>
+
+  <!-- The module's native glue and the Qt Charts library it links, next to the consumer's executable.
+       QtSharp.Api's own targets put the core glue and the Qt modules it ships there already. -->
+  <Target Name="QtChartsCopyNativeDeps" AfterTargets="Build">
+    <ItemGroup>
+      <_QtChartsNative Include="$(QtChartsNativeDir)*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_QtChartsNative)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="QtChartsCopyNativeDepsPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <_QtChartsNativePublish Include="$(QtChartsNativeDir)*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_QtChartsNativePublish)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

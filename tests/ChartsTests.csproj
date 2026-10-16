@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The conformance runner: the ported Qt Charts examples. It references the binding as a
+       *project* while both live in this repository; a consumer references the packages. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>ChartsTests</AssemblyName>
+    <RootNamespace>QtSharp.Charts.Tests</RootNamespace>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\QtSharp.Charts.csproj" />
+  </ItemGroup>
+
+  <!-- QtSharp.Api's own buildTransitive assets bring the core glue, the Qt modules it ships and the
+       platform plugin. The module's native glue is ours, so it is copied here: a ProjectReference
+       does not import a package's buildTransitive. -->
+  <Target Name="CopyChartsNative" AfterTargets="Build">
+    <ItemGroup>
+      <_ChartsNative Include="$(MSBuildThisFileDirectory)..\out\native\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_ChartsNative)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

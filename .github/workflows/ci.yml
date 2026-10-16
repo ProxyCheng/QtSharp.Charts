@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and run the ported examples
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Fetch the Qt kit (qtbase + qtsvg + QtCharts)
+        shell: pwsh
+        run: ./scripts/build-qt-kit.ps1
+
+      - name: Fetch the core binding package
+        shell: pwsh
+        run: ./scripts/Fetch-Core.ps1
+
+      - name: Build the native glue
+        shell: pwsh
+        run: |
+          ./build-native.ps1 -QtDir "$env:QT_DIR"
+          if ($LASTEXITCODE -ne 0) { throw "the native build failed" }
+
+      - name: Build the binding and the tests
+        shell: pwsh
+        run: |
+          dotnet build tests/ChartsTests.csproj -c Release --nologo "-p:QtRuntimeDir=$env:QT_RUNTIME_DIR"
+          if ($LASTEXITCODE -ne 0) { throw "the build failed" }
+
+      - name: Run every ported example
+        shell: pwsh
+        run: |
+          $app = "tests/bin/Release/net10.0/ChartsTests.exe"
+          $names = & $app --list
+          $failed = @()
+          foreach ($example in $names) {
+            Write-Host "  --- $example"
+            & $app $example
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host ("  retrying {0} after exit 0x{1:X8}" -f $example, $LASTEXITCODE)
+              & $app $example
+            }
+            if ($LASTEXITCODE -ne 0) { $failed += ("{0} (0x{1:X8})" -f $example, $LASTEXITCODE) }
+          }
+          if ($failed.Count -gt 0) { throw "these examples failed: $($failed -join ', ')" }
+          Write-Host "all $($names.Count) ported examples passed"
+
+      - name: Pack the package
+        shell: pwsh
+        run: |
+          dotnet pack src/QtSharp.Charts.csproj -c Release -o out/packages --nologo
+          if ($LASTEXITCODE -ne 0) { throw "packing failed" }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QtSharp.Charts-ci
+          path: out/packages/*.nupkg
+          if-no-files-found: error
