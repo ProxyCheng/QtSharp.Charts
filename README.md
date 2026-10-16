@@ -98,16 +98,29 @@ ChartsTests piechart            # run one
 ChartsTests --list | % { ... }  # what CI does
 ```
 
+Every widget the Qt 6.11 gallery ships, plus the two examples that are still stand-alone upstream -
+37 in all, 561 assertions:
+
 | Example | From |
 |---|---|
-| `splinechart`, `linechart` | Qt's stand-alone examples of the same name |
-| `barchart`, `stackedbarchart`, `lineandbar` | `chartsgallery` BarWidget / BarStackedWidget / LineAndBarWidget |
-| `piechart`, `donutchart`, `nesteddonuts` | PieWidget / DonutWidget / NestedDonutsWidget |
-| `scatterchart`, `areachart` | ScatterWidget / AreaWidget |
-| `datetimeaxis`, `logvalueaxis`, `multiaxis` | DateTimeAxisWidget / LogAxisWidget / MultiAxisWidget |
+| `splinechart`, `linechart`, `zoomlinechart` | Qt's stand-alone examples of the same name |
+| `barchart`, `stackedbarchart`, `percentbarchart`, `horizontalbarchart`, `horizontalstackedbarchart`, `horizontalpercentbarchart`, `lineandbar` | BarWidget and its stacked/percent/horizontal siblings, LineAndBarWidget |
+| `piechart`, `donutchart`, `nesteddonuts`, `piedrilldown`, `percentcalloutcustom` | PieWidget, DonutWidget, NestedDonutsWidget, PieDrilldownWidget, PccWidget |
+| `scatterchart`, `scatterinteractions`, `areachart`, `lightmarkers` | ScatterWidget, ScatterInteractionsWidget, AreaWidget, LightMarkersWidget |
+| `boxplotchart`, `candlestickchart` | BoxPlotWidget, CandleStickWidget |
+| `datetimeaxis`, `logvalueaxis`, `multiaxis`, `temperaturerecords`, `customchart` | DateTimeAxisWidget, LogAxisWidget, MultiAxisWidget, TemperatureRecordsWidget, CustomChartWidget |
 | `polarchart` | PolarChartWidget |
-| `legend`, `legendmarkers`, `selectedbar` | LegendWidget / LegendMarkersWidget / SelectedBarWidget |
-| `dynamicspline`, `chartthemes`, `zoomlinechart` | DynamicSplineWidget / ThemeWidget / the zoomlinechart example |
+| `legend`, `legendmarkers`, `selectedbar`, `pointconfiguration` | LegendWidget, LegendMarkersWidget, SelectedBarWidget, PointConfigurationWidget |
+| `interactions`, `stackeddrilldown`, `barmodelmapper`, `modeldata` | InteractionsWidget, StackedDrilldownWidget, BarModelMapperWidget, ModelDataWidget |
+| `dynamicspline`, `chartthemes` | DynamicSplineWidget, ThemeWidget |
+
+The data Qt ships in the gallery's qrc (the box plot and candlestick files) is in
+`tests/GalleryData.cs`, as the raw lines its C++ readers parse, and the readers themselves are
+ported alongside the examples they belong to.
+
+Not ported, and why: `audio` drives a live QAudioSource, which is QtMultimedia and is not part of
+the QtSharp kit; `openglseries` and `callout` need API this binding does not publish yet (see
+below); the `qml*` examples are QML.
 
 In Qt 6.11 most of the stand-alone widget examples were folded into `examples/charts/chartsgallery`,
 one widget per chart type - so the name without a suffix is the gallery widget it came from.
@@ -137,3 +150,23 @@ They are worth knowing before you write your own charts code:
   pinch in `sceneEvent()`/`gestureEvent()`; neither is part of the bound surface. The rubber band and
   the keyboard controls are, and the managed `ChartView` subclass proves the module's classes can be
   overridden from C#.
+- **A list of pointers hands back wrappers of the *declared* type.** `QPieSeries::slices()` is a
+  `QList<QPieSlice*>`, and an element of it is wrapped transiently - so reading a slice you put in
+  as your own `QPieSlice` subclass gives you a `QPieSlice`, not your subclass. Signals are the other
+  way round: `clicked(QPieSlice*)` hands over the very wrapper that was built for the object, which
+  is how the drilldown examples cast it back. Keep your own references to the slices you create.
+- **A list of values hands back fresh wrappers, one per read.** `QXYSeries::points()` is a
+  `QList<QPointF>`; `Array.IndexOf(series.Points(), point)` finds nothing because the wrappers are
+  different objects for the same value. Compare the coordinates (the light markers example does).
+- **Mouse events on a QChartView go to its viewport.** A `QAbstractScrollArea` keeps its drawing
+  surface in a child widget, so an event posted to the view itself never reaches `mouseMoveEvent` -
+  send it to `view.Viewport()` (the interactions example is what shows this).
+- **`QVariant(QColor)` is not available.** QVariant constructs the types it has real constructors
+  for; a QColor goes through its *template* one, which the extractor cannot materialise. That is why
+  the point configuration example has no colour control and why the model mappers do not paint their
+  mapped columns through `Qt::BackgroundRole`.
+- **A mapper's axis is not re-scaled by a model edit.** `createDefaultAxes()` builds it once, from
+  the values the model had at that moment, and calling it again afterwards does not move it. Set the
+  range yourself if the data can grow.
+- **A box plot chart's default x axis is a category axis**, one category per box - so
+  `axes(Qt::Horizontal).first()` is a `QBarCategoryAxis`, not a value axis.
