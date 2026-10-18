@@ -352,6 +352,12 @@ typedef struct { int x1, y1, x2, y2; } QsApiLine;
 typedef struct { double x1, y1, x2, y2; } QsApiLineF;
 typedef struct { double x, y, width, height; } QsApiRectF;
 typedef struct { int x1, y1, x2, y2; } QsApiRect;
+typedef struct { long long jd; } QsApiDate;
+typedef struct { int mds; } QsApiTime;
+typedef struct { float x, y; } QsApiVector2D;
+typedef struct { float x, y, z; } QsApiVector3D;
+typedef struct { float x, y, z, w; } QsApiVector4D;
+typedef struct { float scalar, x, y, z; } QsApiQuaternion;
 
 template <class T> T& QsApiDefaultValue() { static T value{}; return value; }
 
