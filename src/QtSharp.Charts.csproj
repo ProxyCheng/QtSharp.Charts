@@ -32,7 +32,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="QtSharp.Charts.cs" />
+    <!-- One file per Qt header, the same layout the core binding generates. -->
+    <Compile Include="generated\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>

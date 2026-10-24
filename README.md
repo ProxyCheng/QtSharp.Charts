@@ -75,18 +75,21 @@ dotnet pack src\QtSharp.Charts.csproj -c Release -o out\packages
 repository, pinned to the core package version this repository builds against - the same way the
 generated files are pinned to the model.
 
-`src/QtSharp.Charts.cs` and `src/QtSharp.Charts.native.cpp` are **generated and checked in**: the
-generator lives in the QtSharp repository and needs clang, and there is no reason for this
-repository to drag that in. To regenerate them, from a QtSharp clone:
+`src/generated/**/*.cs` (one file per Qt header, the same layout the core binding uses) and
+`src/QtSharp.Charts.native.cpp` are **generated and checked in**: the generator lives in the QtSharp
+repository and needs clang, and there is no reason for this repository to drag that in. To
+regenerate them, from a QtSharp clone:
 
 ```
 qtgen extract2 model\qtsharp.charts.json --module charts
 qtgen codegen  model\qtsharp.charts.json out\charts --module charts
 ```
 
-and copy the two files into `src\`. The two files and the model are checked in together, so a
-regeneration is a reviewable diff; CI builds and runs them rather than regenerating them, because
-that would mean putting clang and the whole Qt kit on the runner.
+then replace `src\generated` with `out\charts\generated` and copy
+`out\charts\QtSharp.Charts.native.cpp` over `src\QtSharp.Charts.native.cpp`. The generated tree, the
+native glue and the model are checked in together, so a regeneration is a reviewable diff; CI builds
+and runs them rather than regenerating them, because that would mean putting clang and the whole Qt
+kit on the runner.
 
 ## Tests
 
@@ -99,11 +102,13 @@ failed.
 ChartsTests --list              # the example names, one per line
 ChartsTests                     # the usage table
 ChartsTests piechart            # run one
-ChartsTests --list | % { ... }  # what CI does
+
+# all of them, several windows at a time (the core binding's gate uses the same pool)
+./scripts/run-window-tests.ps1 -Exe tests/bin/Release/net10.0/ChartsTests.exe -Label "charts examples"
 ```
 
 Every widget the Qt 6.11 gallery ships, plus the two examples that are still stand-alone upstream -
-37 in all, 561 assertions:
+38 in all, 570 assertions:
 
 | Example | From |
 |---|---|
